@@ -21,7 +21,13 @@ json_resto = json.loads(conn.get_object(bucket_name, restaurants_filename))
 mongo_client["velo"]["restaurants"].insert(json_resto)
 
 
-# Import and create bike lanes
+##Import catégorie de restaurants
+
+restaurants_filename =  'restaurantscategories.json'
+json_catresto = json.loads(conn.get_object(bucket_name, restaurants_filename))
+mongo_client["velo"]["cat_restaurants"].insert(json_catresto)
+
+#Import piste cyclable
 geojson_bikelanes = geojson.loads(conn.get_object(bucket_name, bikelanes_filename))
 
 
