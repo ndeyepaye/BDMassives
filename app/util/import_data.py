@@ -18,6 +18,17 @@ bikelanes_filename = 'Pistes_cyclables.geojson'
 conn = Amazon_connection()
 
 json_resto = json.loads(conn.get_object(bucket_name, restaurants_filename))
+
+### dans import data
+
+
+## On créé un champ coordinates
+for resto in json_resto:
+    try:
+        resto['coordinates']=[float(resto['Latitude']), float(resto['Longitude'])]
+    except:
+        pass
+
 mongo_client["velo"]["restaurants"].insert(json_resto)
 
 
@@ -52,4 +63,6 @@ for feature in range(len(tab)):
     query = formatCypherPointQuery(entiteFirst[1],entiteFirst[0],roadName,longRoad,entiteLast[1],entiteLast[0])
     neo4j_graph.run(query)
 
+# Mettre donnees piste cyclable dans mongo
+mongo_client["velo"]["pistes"].insert(tab)
 
